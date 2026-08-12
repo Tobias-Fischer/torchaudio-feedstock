@@ -47,17 +47,19 @@ outputs:
             - cross-python_${{ target_platform }}
             - pytorch
 
-            - cuda-driver-dev
-            - cuda-cudart-dev
-            - cuda-nvrtc-dev
-            - cuda-nvtx-dev
-            - cuda-nvml-dev
-            - cuda-profiler-api
-            - libcublas-dev
-            - libcufft-dev
-            - libcurand-dev
-            - libcusolver-dev
-            - libcusparse-dev
+            - if: cuda_compiler_version != "None"
+              then:
+                - cuda-driver-dev
+                - cuda-cudart-dev
+                - cuda-nvrtc-dev
+                - cuda-nvtx-dev
+                - cuda-nvml-dev
+                - cuda-profiler-api
+                - libcublas-dev
+                - libcufft-dev
+                - libcurand-dev
+                - libcusolver-dev
+                - libcusparse-dev
 
         - ${{ compiler('cxx') }}
         - ${{ compiler('c') }}
