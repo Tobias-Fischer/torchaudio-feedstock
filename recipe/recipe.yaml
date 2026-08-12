@@ -47,19 +47,17 @@ outputs:
             - cross-python_${{ target_platform }}
             - pytorch
 
-            - if: match(cuda_compiler_version, ">=12")
-              then:
-                - cuda-driver-dev
-                - cuda-cudart-dev
-                - cuda-nvrtc-dev
-                - cuda-nvtx-dev
-                - cuda-nvml-dev
-                - cuda-profiler-api
-                - libcublas-dev
-                - libcufft-dev
-                - libcurand-dev
-                - libcusolver-dev
-                - libcusparse-dev
+            - cuda-driver-dev
+            - cuda-cudart-dev
+            - cuda-nvrtc-dev
+            - cuda-nvtx-dev
+            - cuda-nvml-dev
+            - cuda-profiler-api
+            - libcublas-dev
+            - libcufft-dev
+            - libcurand-dev
+            - libcusolver-dev
+            - libcusparse-dev
 
         - ${{ compiler('cxx') }}
         - ${{ compiler('c') }}
@@ -93,10 +91,6 @@ outputs:
         - if: cuda_compiler_version != "None"
           then:
             - cuda-version ==${{ cuda_compiler_version }}
-
-        - if: match(cuda_compiler_version, ">=12")
-          then:
-            - cuda-driver-dev
             - cuda-cudart-dev
             - cuda-nvrtc-dev
             - cuda-nvtx-dev
@@ -107,6 +101,7 @@ outputs:
             - libcurand-dev
             - libcusolver-dev
             - libcusparse-dev
+            - cuda-driver-dev
             - cuda-nvcc
       run:
         - python
@@ -121,15 +116,13 @@ outputs:
 
       ignore_run_exports:
         from_package:
-          - if: match(cuda_compiler_version, ">=12")
-            then:
-              - cuda-nvrtc-dev
-              - cuda-nvtx-dev
-              - libcublas-dev
-              - libcufft-dev
-              - libcurand-dev
-              - libcusolver-dev
-              - libcusparse-dev
+          - cuda-nvrtc-dev
+          - cuda-nvtx-dev
+          - libcublas-dev
+          - libcufft-dev
+          - libcurand-dev
+          - libcusolver-dev
+          - libcusparse-dev
 
     tests:
       - python:
