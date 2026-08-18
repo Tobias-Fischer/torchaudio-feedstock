@@ -18,6 +18,8 @@ source:
 
 build:
   number: ${{ build_number }}
+  skip:
+    - win and match(cuda_compiler_version, ">=12,<13")
   string: ${{ string_prefix }}py${{ python | version_to_buildstring }}h${{ hash }}_${{ build_number }}
 
 outputs:
