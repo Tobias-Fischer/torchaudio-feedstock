@@ -1,5 +1,4 @@
 azure:
-  free_disk_space: true
   settings_linux:
     swapfile_size: 5GiB
 build_platform:
@@ -13,3 +12,7 @@ github:
   branch_name: main
   tooling_branch_name: main
 test: native
+workflow_settings:
+  free_disk_space:
+    - provider: azure
+      value: quick
