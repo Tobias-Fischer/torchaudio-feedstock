@@ -43,9 +43,9 @@ __migrator:
 
     ref: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html#new-features
 
-# need to stay on CUDA 12.8 on windows due to https://github.com/pytorch/pytorch/issues/156181
+# CUDA 12.8 cannot solve with torchcodec on Windows
 cuda_compiler_version:         # [win]
-  - 12.8                       # [win]
+  - 13.0                       # [win]
 
 cuda_compiler_version_min:     # [win]
   - 12.9                       # [win]
