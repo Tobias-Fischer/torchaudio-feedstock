@@ -2,7 +2,7 @@
 
 context:
   version: "2.11.0"
-  build_number: 2
+  build_number: 3
   cuda_build_string: cuda${{ cuda_compiler_version | version_to_buildstring }}_
   string_prefix: ${{ "cpu_" if cuda_compiler_version == "None" else cuda_build_string }}
 
@@ -18,8 +18,6 @@ source:
 
 build:
   number: ${{ build_number }}
-  skip:
-    - win
   string: ${{ string_prefix }}py${{ python | version_to_buildstring }}h${{ hash }}_${{ build_number }}
 
 outputs:
@@ -49,7 +47,8 @@ outputs:
 
             - if: match(cuda_compiler_version, ">=12")
               then:
-                - cuda-driver-dev
+                - if: linux
+                  then: cuda-driver-dev
                 - cuda-cudart-dev
                 - cuda-nvrtc-dev
                 - cuda-nvtx-dev
@@ -96,7 +95,8 @@ outputs:
 
         - if: match(cuda_compiler_version, ">=12")
           then:
-            - cuda-driver-dev
+            - if: linux
+              then: cuda-driver-dev
             - cuda-cudart-dev
             - cuda-nvrtc-dev
             - cuda-nvtx-dev
