@@ -38,4 +38,4 @@ export USE_FFMPEG=0
 # RNNT loss is buggy
 export BUILD_RNNT=0
 
-python -m pip install . -vv
+python -m pip install . -vv --no-deps --no-build-isolation
