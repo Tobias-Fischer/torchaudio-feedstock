@@ -2,7 +2,7 @@
 
 context:
   version: "2.11.0"
-  build_number: 2
+  build_number: 3
   cuda_build_string: cuda${{ cuda_compiler_version | version_to_buildstring }}_
   string_prefix: ${{ "cpu_" if cuda_compiler_version == "None" else cuda_build_string }}
 
@@ -47,7 +47,7 @@ outputs:
             - cross-python_${{ target_platform }}
             - pytorch
 
-            - if: match(cuda_compiler_version, ">=12")
+            - if: cuda_compiler_version != "None"
               then:
                 - cuda-driver-dev
                 - cuda-cudart-dev
@@ -90,13 +90,16 @@ outputs:
         - liblzma-devel
         - zlib
 
+        # Fix newer version of headers in $PREFIX
+        # Fixes: $PREFIX/lib/gcc/x86_64-conda-linux-gnu/15.3.0/include/c++/type_traits(555): error: type name is not allowed
+        - if: linux
+          then:
+            - libgcc-devel_${{ host_platform }} ${{ c_compiler_version }}.*
+            - libstdcxx-devel_${{ host_platform }} ${{ cxx_compiler_version }}.*
+
         - if: cuda_compiler_version != "None"
           then:
             - cuda-version ==${{ cuda_compiler_version }}
-
-        - if: match(cuda_compiler_version, ">=12")
-          then:
-            - cuda-driver-dev
             - cuda-cudart-dev
             - cuda-nvrtc-dev
             - cuda-nvtx-dev
@@ -107,6 +110,7 @@ outputs:
             - libcurand-dev
             - libcusolver-dev
             - libcusparse-dev
+            - cuda-driver-dev
             - cuda-nvcc
       run:
         - python
@@ -121,15 +125,13 @@ outputs:
 
       ignore_run_exports:
         from_package:
-          - if: match(cuda_compiler_version, ">=12")
-            then:
-              - cuda-nvrtc-dev
-              - cuda-nvtx-dev
-              - libcublas-dev
-              - libcufft-dev
-              - libcurand-dev
-              - libcusolver-dev
-              - libcusparse-dev
+          - cuda-nvrtc-dev
+          - cuda-nvtx-dev
+          - libcublas-dev
+          - libcufft-dev
+          - libcurand-dev
+          - libcusolver-dev
+          - libcusparse-dev
 
     tests:
       - python:
