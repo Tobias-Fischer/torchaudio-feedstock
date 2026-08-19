@@ -90,6 +90,13 @@ outputs:
         - liblzma-devel
         - zlib
 
+        # Fix newer version of headers in $PREFIX
+        # Fixes: $PREFIX/lib/gcc/x86_64-conda-linux-gnu/15.3.0/include/c++/type_traits(555): error: type name is not allowed
+        - if: linux
+          then:
+            - libgcc-devel_${{ host_platform }} ${{ c_compiler_version }}.*
+            - libstdcxx-devel_${{ host_platform }} ${{ cxx_compiler_version }}.*
+
         - if: cuda_compiler_version != "None"
           then:
             - cuda-version ==${{ cuda_compiler_version }}
